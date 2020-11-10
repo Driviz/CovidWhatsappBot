@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>tech.driviz</groupId>
 	<artifactId>Covid-19</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>Covid-19</name>
 	<description>Api to fetch covid data (Cases , Deaths) for any country AND Cases Total, Deaths Total</description>
 
