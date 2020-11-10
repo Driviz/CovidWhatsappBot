@@ -14,16 +14,15 @@ public class WorldTransformer {
 		if (worldData == null) {
 			return "Not Found";
 		}
-		
+
 		if (typeOfMessage == null)
 			return "Not Found";
 
-		if (typeOfMessage.equals("active")) {
+		if (typeOfMessage.equalsIgnoreCase("cases")) {
 			Long activeCases = getActiveCases(worldData);
-			return TOTAL_ACTIVE_CASES+activeCases;
-		}
-		else if (typeOfMessage.equals("deaths"))
-			return TOTAL_DEATHS+worldData.getTotalDeaths();
+			return TOTAL_ACTIVE_CASES + activeCases;
+		} else if (typeOfMessage.equalsIgnoreCase("deaths"))
+			return TOTAL_DEATHS + worldData.getTotalDeaths();
 
 		return "Not Found";
 	}
@@ -32,6 +31,6 @@ public class WorldTransformer {
 		Long totalConfirmed = worldData.getTotalConfirmed();
 		Long totalDeaths = worldData.getTotalDeaths();
 		Long totalRecovered = worldData.getTotalRecovered();
-		return totalConfirmed-totalDeaths-totalRecovered;
+		return totalConfirmed - totalDeaths - totalRecovered;
 	}
 }

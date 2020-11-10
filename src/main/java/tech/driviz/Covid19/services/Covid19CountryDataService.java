@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import tech.driviz.Covid19.models.backend.CountryData;
+import tech.driviz.Covid19.models.backend.TwilioMessage;
 import tech.driviz.Covid19.transformers.CountryTransformer;
 
 @Service
@@ -23,8 +24,7 @@ public class Covid19CountryDataService {
 
 	private final RestTemplate covidRestTemplate;
 	private final CountryTransformer countryTransformer;
-	private final TwilioSenderService twilioSenderService;
-
+	
 	private final String COUNTRY_PATH = "/live/country/";
 
 	private final ObjectMapper mapper;
@@ -35,14 +35,13 @@ public class Covid19CountryDataService {
 	private String baseUrl;
 
 	public Covid19CountryDataService(RestTemplate covidRestTemplate, ObjectMapper mapper,
-			CountryTransformer countryTransformer, TwilioSenderService twilioSenderService) {
+			CountryTransformer countryTransformer) {
 		this.covidRestTemplate = covidRestTemplate;
 		this.countryTransformer = countryTransformer;
-		this.twilioSenderService = twilioSenderService;
 		this.mapper = mapper;
 	}
 
-	public String getCasesByCountry(String country, String caseType) {
+	public String getCasesByCountry(String country, String caseType, TwilioMessage twilioMessage) {
 		URI requestURI = createRequestURI(country);
 		String jsonResponse = covidRestTemplate.getForObject(requestURI, String.class);
 		List<CountryData> responseList = null;
@@ -64,7 +63,7 @@ public class Covid19CountryDataService {
 			e.printStackTrace();
 		}
 
-		return twilioSenderService.sendMessage(transformedMessage);
+		return transformedMessage;
 	}
 
 	private URI createRequestURI(String country) {
